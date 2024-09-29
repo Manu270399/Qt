@@ -1,14 +1,15 @@
-'''
+"""
 Verändern Sie den Quelltext der Übung 2 auf ein Polynom dritter Ordnung:
 
 f(x) = x3 - 2x2 + 4x - 3 mit x im Bereich von -2,5 bis 3,0 mit einer Schrittweite von 0,1.
 
-'''
+"""
 
 # Importieren der notwendigen Module aus PyQt6 für die Diagrammerstellung und Achsendarstellung
 import math
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
 from PyQt6.QtCore import Qt
+
 
 # Definition der zentralen Widget-Klasse, die von QChartView erbt
 class CentralWidget(QChartView):
@@ -17,12 +18,12 @@ class CentralWidget(QChartView):
 
         # Festlegung der Schrittweite und des Wertebereichs für x
         delta_x = 0.1  # Schrittweite von 0,1 für feinere Punkte
-        x_min = -2.5   # Untere Grenze des x-Wertebereichs
-        x_max = 3.0    # Obere Grenze des x-Wertebereichs
+        x_min = -2.5  # Untere Grenze des x-Wertebereichs
+        x_max = 3.0  # Obere Grenze des x-Wertebereichs
 
         # Berechnung der Start- und Endwerte für die x-Werte basierend auf delta_x
         start = int(x_min / delta_x)  # Startindex für die x-Werte
-        end = int(x_max / delta_x)    # Endindex für die x-Werte
+        end = int(x_max / delta_x)  # Endindex für die x-Werte
 
         # Generierung der Liste der x-Werte von x_min bis x_max mit der Schrittweite delta_x
         values_x = [i * delta_x for i in range(start, end)]
@@ -30,7 +31,7 @@ class CentralWidget(QChartView):
         # Berechnung der y-Werte basierend auf dem Polynom f(x) = x^3 - 2x^2 + 4x - 3
         values_sine = []
         for x in values_x:
-            values_sine.append(x**3 - 2 * x**2 + 4 * x - 3)  # Berechnung der Polynomwerte für jedes x
+            values_sine.append(x ** 3 - 2 * x ** 2 + 4 * x - 3)  # Berechnung der Polynomwerte für jedes x
 
         # Erstellung der Linie zur Darstellung des Polynoms als QLineSeries
         series_sinus = QLineSeries()  # Verwenden einer Liniendarstellung für die Polynomkurve
@@ -54,7 +55,7 @@ class CentralWidget(QChartView):
 
         # Hinzufügen der Achsen zum Diagramm
         q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)  # x-Achse unten hinzufügen
-        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)    # y-Achse links hinzufügen
+        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)  # y-Achse links hinzufügen
 
         # Hinzufügen der Linie zur Darstellung des Polynoms im Diagramm
         q_chart.addSeries(series_sinus)  # Polynomlinie zum Diagramm hinzufügen
