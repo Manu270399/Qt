@@ -7,63 +7,80 @@ Erweitern Sie die Darstellung um einen zweiten Graphen für den cos(x) im gleich
 
 '''
 
+# Importieren der notwendigen Module aus PyQt6 für Diagrammerstellung und mathematische Funktionen
 import math
-
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
 from PyQt6.QtCore import Qt
 
 
+# Definition der zentralen Widget-Klasse, die von QChartView erbt
 class CentralWidget(QChartView):
     def __init__(self, parent=None):
         super(CentralWidget, self).__init__(parent)
 
-        delta_x = 0.02
-        x_min = -1.0 * math.pi # -3.14...
-        x_max = 2.0 * math.pi # 6.28...
+        # Festlegung der Schrittweite und des Wertebereichs für x
+        delta_x = 0.02  # Schrittweite von 0,02 für feinere Punkte
+        x_min = -1.0 * math.pi  # Untere Grenze des x-Wertebereichs (-3.14...)
+        x_max = 2.0 * math.pi  # Obere Grenze des x-Wertebereichs (6.28...)
 
-        start = int(x_min / delta_x)
-        end = int(x_max / delta_x)
+        # Berechnung der Start- und Endwerte für die x-Werte basierend auf delta_x
+        start = int(x_min / delta_x)  # Startindex für die x-Werte
+        end = int(x_max / delta_x)  # Endindex für die x-Werte
+
+        # Generierung der Liste der x-Werte von x_min bis x_max mit der Schrittweite delta_x
         values_x = [i * delta_x for i in range(start, end)]
 
+        # Berechnung der y-Werte für die Sinusfunktion
         values_sine = []
         for x in values_x:
-            values_sine.append(math.sin(x))
+            values_sine.append(math.sin(x))  # Berechnung von sin(x) für jeden x-Wert
 
+        # Berechnung der y-Werte für die Kosinusfunktion
         values_cosine = []
         for x in values_x:
-            values_cosine.append(math.cos(x))
+            values_cosine.append(math.cos(x))  # Berechnung von cos(x) für jeden x-Wert
 
-        series_sinus = QLineSeries()
-        series_sinus.setName("Sinus")
+        # Erstellung der Linie zur Darstellung der Sinusfunktion als QLineSeries
+        series_sinus = QLineSeries()  # Verwenden einer Liniendarstellung für die Sinuskurve
+        series_sinus.setName("Sinus")  # Benennung der Linie als "Sinus"
 
-        series_cosine = QLineSeries()
-        series_cosine.setName("Cosinus")
+        # Erstellung der Linie zur Darstellung der Kosinusfunktion als QLineSeries
+        series_cosine = QLineSeries()  # Verwenden einer Liniendarstellung für die Kosinuskurve
+        series_cosine.setName("Cosinus")  # Benennung der Linie als "Cosinus"
 
+        # Hinzufügen der (x, y)-Punkte zur Sinus- und Kosinuslinie
         for i in range(len(values_x)):
-            series_sinus.append(values_x[i], values_sine[i])
-            series_cosine.append(values_x[i], values_cosine[i])
+            series_sinus.append(values_x[i], values_sine[i])  # Füge jeden (x, y)-Punkt zur Sinusserie hinzu
+            series_cosine.append(values_x[i], values_cosine[i])  # Füge jeden (x, y)-Punkt zur Kosinusserie hinzu
 
+        # Erstellen der x-Achse und Setzen des Wertebereichs und Titels
         axis_x = QValueAxis()
-        axis_x.setRange(x_min, x_max)
-        axis_x.setTitleText("x-Achse")
+        axis_x.setRange(x_min, x_max)  # Setzen der Grenzen der x-Achse
+        axis_x.setTitleText("x-Achse")  # Titel der x-Achse
 
+        # Erstellen der y-Achse und Setzen des Wertebereichs und Titels
         axis_y = QValueAxis()
-        axis_y.setTitleText("y-Achse")
-        axis_y.setRange(-1, 1)
+        axis_y.setTitleText("y-Achse")  # Titel der y-Achse
+        axis_y.setRange(-1, 1)  # Setzen des Wertebereichs für die y-Achse (Sinus und Kosinus sind zwischen -1 und 1)
 
-        q_chart = QChart()
+        # Erstellen des Diagramms und Hinzufügen der Achsen
+        q_chart = QChart()  # Erstellen eines leeren Diagramms
 
-        q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)
-        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
+        # Hinzufügen der Achsen zum Diagramm
+        q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)  # x-Achse unten hinzufügen
+        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)  # y-Achse links hinzufügen
 
-        q_chart.addSeries(series_sinus)
-        q_chart.addSeries(series_cosine)
+        # Hinzufügen der Linien für Sinus und Kosinus zur Darstellung im Diagramm
+        q_chart.addSeries(series_sinus)  # Sinuslinie zum Diagramm hinzufügen
+        q_chart.addSeries(series_cosine)  # Kosinuslinie zum Diagramm hinzufügen
 
-        series_sinus.attachAxis(axis_x)
-        series_sinus.attachAxis(axis_y)
+        # Verknüpfen der Sinuslinie mit den Achsen
+        series_sinus.attachAxis(axis_x)  # x-Achse mit der Sinuslinie verknüpfen
+        series_sinus.attachAxis(axis_y)  # y-Achse mit der Sinuslinie verknüpfen
 
-        series_cosine.attachAxis(axis_x)
-        series_cosine.attachAxis(axis_y)
+        # Verknüpfen der Kosinuslinie mit den Achsen
+        series_cosine.attachAxis(axis_x)  # x-Achse mit der Kosinuslinie verknüpfen
+        series_cosine.attachAxis(axis_y)  # y-Achse mit der Kosinuslinie verknüpfen
 
-        self.setChart(q_chart)
-
+        # Setzen des erstellten Diagramms in die QChartView
+        self.setChart(q_chart)  # Diagramm in der Ansicht darstellen
