@@ -1,3 +1,12 @@
+'''
+
+Erstellen Sie auf Basis des Quelltext aus Übung 1 einen Plotter für die Funktion sin(x).
+Der Wertebereich geht dabei von -3,14 bis 6,28 mit einer Schrittweite von 0,02.
+
+Erweitern Sie die Darstellung um einen zweiten Graphen für den cos(x) im gleichen Bereich.
+
+'''
+
 import math
 
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
