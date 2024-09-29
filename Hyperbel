@@ -8,51 +8,66 @@ Durch die Darstellung von vielen Bildpunkten, entsteht ein glatterer Kurvenverla
 
 '''
 
+# Importieren der notwendigen Module aus PyQt6 für Diagrammerstellung und Koordinatenachsen
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
 from PyQt6.QtCore import Qt
 
-
+# Definition der zentralen Widget-Klasse, die von QChartView erbt
 class CentralWidget(QChartView):
     def __init__(self, parent=None):
         super(CentralWidget, self).__init__(parent)
 
-        delta_x = 0.01
-        x_min = -10
-        x_max = 5
+        # Initialisierung der Schrittweite für x-Werte und Festlegung des Wertebereichs
+        delta_x = 0.01  # Schrittweite für die x-Werte
+        x_min = -10     # Minimale Grenze für die x-Werte
+        x_max = 5       # Maximale Grenze für die x-Werte
 
-        start = int(x_min / delta_x)
-        end = int(x_max / delta_x)
-        values_x = [i * delta_x for i in range(start, end)]
+        # Berechnung der Start- und Endpunkte für die x-Werte basierend auf delta_x
+        start = int(x_min / delta_x)  # Startindex für die x-Werte
+        end = int(x_max / delta_x)    # Endindex für die x-Werte
 
+        # Erstellen der Liste von x-Werten im Bereich von x_min bis x_max mit dem Inkrement delta_x
+        values_x = [i * delta_x for i in range(start, end)]  # Liste der x-Werte
+
+        # Berechnung der y-Werte basierend auf der Funktion 1/x (Hyperbel)
         values_y = []
         for x in values_x:
             if x == 0.0:
-                values_y.append(0.0)
+                values_y.append(0.0)  # Sonderfall: Für x=0 wird y=0 gesetzt, um eine Division durch Null zu vermeiden
             else:
-                values_y.append(1 / x)
+                values_y.append(1 / x)  # Berechnung des y-Wertes für alle anderen x-Werte (Hyperbelfunktion)
 
-        series_spline = QLineSeries()
-        series_spline.setName("Hyperbel")
+        # Erstellung der Linie für die Darstellung der Hyperbel als QLineSeries
+        series_spline = QLineSeries()  # Verwenden einer Liniendarstellung für die Kurve
+        series_spline.setName("Hyperbel")  # Benennung der Linie
 
+        # Hinzufügen der (x, y)-Punkte zur Linie
         for i in range(len(values_x)):
-            series_spline.append(values_x[i], values_y[i])
+            series_spline.append(values_x[i], values_y[i])  # Füge jeden Punkt zur Serie hinzu
 
+        # Erstellen der x-Achse und Setzen des Wertebereichs und Titels
         axis_x = QValueAxis()
-        axis_x.setRange(x_min, x_max)
-        axis_x.setTitleText("x-Achse")
+        axis_x.setRange(x_min, x_max)  # Setzen der Grenzen der x-Achse
+        axis_x.setTitleText("x-Achse")  # Titel der x-Achse
 
+        # Erstellen der y-Achse und Setzen des Wertebereichs und Titels
         axis_y = QValueAxis()
-        axis_y.setTitleText("y-Achse")
-        axis_y.setRange(-15, 15)
+        axis_y.setTitleText("y-Achse")  # Titel der y-Achse
+        axis_y.setRange(-15, 15)  # Setzen der Grenzen der y-Achse
 
-        q_chart = QChart()
+        # Erstellen des Diagramms und Hinzufügen der Achsen
+        q_chart = QChart()  # Erstellen eines leeren Diagramms
 
-        q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)
-        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
+        # Hinzufügen der Achsen zum Diagramm
+        q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)  # x-Achse unten hinzufügen
+        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)    # y-Achse links hinzufügen
 
-        q_chart.addSeries(series_spline)
+        # Hinzufügen der Linie zur Darstellung der Hyperbel im Diagramm
+        q_chart.addSeries(series_spline)  # Serie zum Diagramm hinzufügen
 
-        series_spline.attachAxis(axis_x)
-        series_spline.attachAxis(axis_y)
+        # Verknüpfen der Linie mit den Achsen
+        series_spline.attachAxis(axis_x)  # x-Achse mit der Linie verknüpfen
+        series_spline.attachAxis(axis_y)  # y-Achse mit der Linie verknüpfen
 
-        self.setChart(q_chart)
+        # Setzen des erstellten Diagramms in die QChartView
+        self.setChart(q_chart)  # Diagramm in der Ansicht darstellen
