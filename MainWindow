@@ -1,15 +1,24 @@
+# Importieren der QMainWindow-Klasse aus dem Modul PyQt6.QtWidgets
 from PyQt6.QtWidgets import QMainWindow
 
+# Importieren des CentralWidget, das in einer separaten Datei definiert wurde
 from CentralWidget import CentralWidget
 
 
+# Definition der MainWindow-Klasse, die von QMainWindow erbt
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
+        # Aufruf des Konstruktors der Basisklasse (QMainWindow), um das Fenster zu initialisieren
         super(MainWindow, self).__init__(parent)
 
-        central_widget = CentralWidget(self)
+        # Erstellen eines Objekts von CentralWidget, das das Hauptanzeigeelement (QChartView) enthält
+        central_widget = CentralWidget(self)  # Setzt CentralWidget als zentrales Widget im Fenster
 
+        # Festlegen des zentralen Widgets im QMainWindow
         self.setCentralWidget(central_widget)
 
-        self.setWindowTitle("Einführung in QCharts")
-        self.setMinimumSize(800, 640)
+        # Festlegen des Fenstertitels
+        self.setWindowTitle("Einführung in QCharts")  # Setzt den Titel des Fensters
+
+        # Festlegen der minimalen Größe des Fensters
+        self.setMinimumSize(800, 640)  # Setzt die minimale Fenstergröße auf 800x640 Pixel
