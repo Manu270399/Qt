@@ -1,14 +1,20 @@
+# Importieren des sys-Moduls, um auf systembezogene Funktionen und Parameter zuzugreifen
 import sys
 
+# Importieren der QApplication-Klasse aus dem Modul PyQt6.QtWidgets
 from PyQt6.QtWidgets import QApplication
 
+# Importieren der MainWindow-Klasse aus der Datei MainWindow.py
 from MainWindow import MainWindow
 
-# All you need is
-# https://doc.qt.io/qtforpython/
-app = QApplication(sys.argv)
+# Erstellen einer QApplication-Instanz
+# QApplication ist die Basisklasse für alle GUI-Anwendungen in PyQt. Sie verwaltet den GUI-Ereigniszyklus.
+app = QApplication(sys.argv)  # sys.argv enthält die Befehlszeilenargumente
 
-main_window = MainWindow()
-main_window.show()
+# Erstellen des Hauptfensters durch Instanziierung der MainWindow-Klasse
+main_window = MainWindow()  # MainWindow ist das zentrale Fenster der Anwendung
+main_window.show()  # Zeigt das Hauptfenster an
 
-sys.exit(app.exec())
+# Starten der Ereignisschleife der Anwendung
+# sys.exit() stellt sicher, dass das Programm mit dem richtigen Rückgabewert beendet wird.
+sys.exit(app.exec())  # Startet den Ereigniszyklus der Anwendung und wartet auf Benutzereingaben
