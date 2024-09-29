@@ -1,3 +1,13 @@
+'''
+Erstellen Sie eine Hyperbel im Wertebereich vom - 5 bis 5 zur Ansicht im QChartView als Spline.
+
+Wie Sie im vergleich der beiden Bilder sehen, trifft hier der Spline nicht die tatsächliche mathematische Kurve einer Hyperbel. 
+Für die Darstellung einer Hyperbel eignet sich ein QLineEdit besser.
+
+Durch die Darstellung von vielen Bildpunkten, entsteht ein glatterer Kurvenverlauf. Vergleichen Sie dafür die linke und rechte Seite des Graphen.
+
+'''
+
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
 from PyQt6.QtCore import Qt
 
