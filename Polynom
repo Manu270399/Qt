@@ -1,3 +1,10 @@
+'''
+Verändern Sie den Quelltext der Übung 2 auf ein Polynom dritter Ordnung:
+
+f(x) = x3 - 2x2 + 4x - 3 mit x im Bereich von -2,5 bis 3,0 mit einer Schrittweite von 0,1.
+
+'''
+
 import math
 
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
