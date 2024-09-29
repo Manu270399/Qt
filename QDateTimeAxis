@@ -1,0 +1,56 @@
+from PyQt6.QtCharts import QChartView, QChart, QDateTimeAxis, QValueAxis, QLineSeries
+from PyQt6.QtCore import Qt, QDateTime, QDate, QTime
+
+
+class CentralWidget(QChartView):
+    def __init__(self, parent=None):
+        super(CentralWidget, self).__init__(parent)
+
+        # Beispiel-Daten (Goldpreise und Datum)
+        dates = [
+            QDate(2021, 1, 1), QDate(2021, 6, 1), QDate(2021, 12, 1),
+            QDate(2022, 3, 1), QDate(2022, 6, 1), QDate(2022, 9, 1),
+            QDate(2023, 1, 1), QDate(2023, 4, 1), QDate(2023, 7, 1),
+            QDate(2023, 9, 1)
+        ]
+
+        # Definierte Goldpreise für die entsprechenden Daten (in Euro pro Feinunze)
+        gold_prices = [
+            1570.0, 1675.0, 1780.0, 1805.0, 1700.0, 1745.0, 
+            1850.0, 1900.0, 1875.0, 1825.0
+        ]
+
+        # Erstellen der Zeitreihe (LineSeries)
+        series_gold = QLineSeries()
+        series_gold.setName("Goldpreis in Euro pro Feinunze")
+
+        # Fügen Sie die Daten (Zeit und Preis) zur Serie hinzu
+        for i in range(len(dates)):
+            # Konvertiere QDate in QDateTime und füge Goldpreis hinzu
+            date_time = QDateTime(dates[i], QTime(0, 0))  # Verwende Mitternacht als Standardzeit
+            series_gold.append(date_time.toMSecsSinceEpoch(), gold_prices[i])
+
+        # Erstellen der Achsen
+        axis_x = QDateTimeAxis()
+        axis_x.setFormat("dd-MM-yyyy")
+        axis_x.setTitleText("Datum")
+
+        axis_y = QValueAxis()
+        axis_y.setRange(min(gold_prices) - 50, max(gold_prices) + 50)  # Angepasst an den Preisbereich
+        axis_y.setTitleText("Goldpreis (Euro)")
+
+        # Erstellen des Diagramms
+        chart = QChart()
+        chart.addSeries(series_gold)
+        chart.setTitle("Goldpreis in Euro pro Feinunze (letzte 3 Jahre)")
+
+        # Füge die Achsen zum Diagramm hinzu
+        chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)
+        chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)
+
+        # Verknüpfen der Serie mit den Achsen
+        series_gold.attachAxis(axis_x)
+        series_gold.attachAxis(axis_y)
+
+        # Setze das Diagramm in die Ansicht
+        self.setChart(chart)
