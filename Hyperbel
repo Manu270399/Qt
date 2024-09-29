@@ -1,16 +1,18 @@
-'''
+"""
 Erstellen Sie eine Hyperbel im Wertebereich vom - 5 bis 5 zur Ansicht im QChartView als Spline.
 
-Wie Sie im vergleich der beiden Bilder sehen, trifft hier der Spline nicht die tatsächliche mathematische Kurve einer Hyperbel. 
-Für die Darstellung einer Hyperbel eignet sich ein QLineEdit besser.
+Wie Sie im Vergleich der beiden Bilder sehen, trifft hier der Spline nicht die tatsächliche mathematische Kurve einer 
+Hyperbel. Für die Darstellung einer Hyperbel eignet sich ein QLineEdit besser.
 
-Durch die Darstellung von vielen Bildpunkten, entsteht ein glatterer Kurvenverlauf. Vergleichen Sie dafür die linke und rechte Seite des Graphen.
+Durch die Darstellung von vielen Bildpunkten entsteht ein glatterer Kurvenverlauf. Vergleichen Sie dafür die linke 
+und rechte Seite des Graphen.
 
-'''
+"""
 
 # Importieren der notwendigen Module aus PyQt6 für Diagrammerstellung und Koordinatenachsen
 from PyQt6.QtCharts import QChartView, QChart, QValueAxis, QLineSeries, QSplineSeries
 from PyQt6.QtCore import Qt
+
 
 # Definition der zentralen Widget-Klasse, die von QChartView erbt
 class CentralWidget(QChartView):
@@ -19,12 +21,12 @@ class CentralWidget(QChartView):
 
         # Initialisierung der Schrittweite für x-Werte und Festlegung des Wertebereichs
         delta_x = 0.01  # Schrittweite für die x-Werte
-        x_min = -10     # Minimale Grenze für die x-Werte
-        x_max = 5       # Maximale Grenze für die x-Werte
+        x_min = -10  # Minimale Grenze für die x-Werte
+        x_max = 5  # Maximale Grenze für die x-Werte
 
         # Berechnung der Start- und Endpunkte für die x-Werte basierend auf delta_x
         start = int(x_min / delta_x)  # Startindex für die x-Werte
-        end = int(x_max / delta_x)    # Endindex für die x-Werte
+        end = int(x_max / delta_x)  # Endindex für die x-Werte
 
         # Erstellen der Liste von x-Werten im Bereich von x_min bis x_max mit dem Inkrement delta_x
         values_x = [i * delta_x for i in range(start, end)]  # Liste der x-Werte
@@ -33,7 +35,7 @@ class CentralWidget(QChartView):
         values_y = []
         for x in values_x:
             if x == 0.0:
-                values_y.append(0.0)  # Sonderfall: Für x=0 wird y=0 gesetzt, um eine Division durch Null zu vermeiden
+                values_y.append(0.0)  # Sonderfall: Für x=0 wird y=0 gesetzt, um eine Division durch null zu vermeiden
             else:
                 values_y.append(1 / x)  # Berechnung des y-Wertes für alle anderen x-Werte (Hyperbelfunktion)
 
@@ -60,7 +62,7 @@ class CentralWidget(QChartView):
 
         # Hinzufügen der Achsen zum Diagramm
         q_chart.addAxis(axis_x, Qt.AlignmentFlag.AlignBottom)  # x-Achse unten hinzufügen
-        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)    # y-Achse links hinzufügen
+        q_chart.addAxis(axis_y, Qt.AlignmentFlag.AlignLeft)  # y-Achse links hinzufügen
 
         # Hinzufügen der Linie zur Darstellung der Hyperbel im Diagramm
         q_chart.addSeries(series_spline)  # Serie zum Diagramm hinzufügen
