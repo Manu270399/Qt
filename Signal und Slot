@@ -1,0 +1,64 @@
+Dient zur asynchronen Kommunikation zwischen Objekten
+
+from Signal import Signal
+from Slot import Slot
+
+if __name__ == '__main__':
+    signal = Signal()
+    slot = Slot()
+
+    signal.send_string.connect(slot.slot_string)
+    signal.send_int.connect(slot.slot_integer)
+    signal.send_void.connect(slot.slot_void)
+
+    signal.set_int(109)
+    signal.void()
+    signal.set_string("Mein Text")
+
+----- Slot.py
+from PyQt6.QtCore import QObject, pyqtSlot
+
+
+class Slot(QObject):
+    def __init__(self):
+        super().__init__()
+
+    @pyqtSlot(str)
+    def slot_string(self, string):
+        print(string)
+
+    @pyqtSlot(int)
+    def slot_integer(self, integer):
+        print(integer)
+
+    @pyqtSlot()
+    def slot_void(self):
+        print("Signal erhalten.")
+
+----- Signal.py
+from PyQt6.QtCore import QObject, pyqtSignal
+
+
+class Signal(QObject):
+    send_string = pyqtSignal(str)
+    send_int = pyqtSignal(int)
+    send_void = pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+
+        self.__string = "Hallo Welt"
+        self.__int = 42
+
+    def set_string(self, string):
+        self.__string = string
+
+        self.send_string.emit(string)
+
+    def set_int(self, number):
+        self.__int = number
+
+        self.send_int.emit(number)
+
+    def void(self):
+        self.send_void.emit()
